@@ -33,6 +33,9 @@ jobs:
       - name: Install dependencies
         run: npm install
         
+      - name: Force install Vite and TypeScript
+        run: npm install --save-dev typescript vite
+        
       - name: Build project
         run: npx vite build
         
