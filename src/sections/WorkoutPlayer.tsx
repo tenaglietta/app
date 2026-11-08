@@ -54,11 +54,12 @@ export function WorkoutPlayer({ routine, onExit }: Props) {
   const [done, setDone] = useState(false);
   const [started, setStarted] = useState(false);
   const step = steps[idx];
+  
   function exerciseOf(s: Step): Exercise {
     return s.phase === 'work' ? s.exercise : s.after;
   }
+  
   const isTimed = step.phase === 'rest' || exerciseOf(step).mode === 'time';
-
   const stepDuration = step.phase === 'rest' ? step.duration : step.exercise.durationSec;
   const [secondsLeft, setSecondsLeft] = useState(stepDuration);
   const prevSecRef = useRef(secondsLeft);
@@ -159,7 +160,6 @@ export function WorkoutPlayer({ routine, onExit }: Props) {
 
   const ex = exerciseOf(step);
   const progress = (idx / steps.length) * 100;
-  const nextStep = steps[idx + 1];
 
   return (
     <div className="space-y-6">
@@ -218,27 +218,28 @@ export function WorkoutPlayer({ routine, onExit }: Props) {
           </div>
         )}
 
-      <div className="flex gap-2">
-        <Button variant="outline" onClick={prev} disabled={idx === 0} className="min-h-14 flex-1" aria-label="Precedente">
-          <ChevronLeft size={20} />
-        </Button>
-        {isTimed ? (
-          <Button
-            onClick={() => setRunning((r) => !r)}
-            className="min-h-14 flex-[2] bg-emerald-600 text-lg hover:bg-emerald-700"
-          >
-            {running ? <><Pause className="mr-2" size={20} /> Pausa</> : <><Play className="mr-2" size={20} /> Riprendi</>}
+        <div className="flex w-full gap-2">
+          <Button variant="outline" onClick={prev} disabled={idx === 0} className="min-h-14 flex-1" aria-label="Precedente">
+            <ChevronLeft size={20} />
           </Button>
-        ) : (
-          <Button onClick={next} className="min-h-14 flex-[2] bg-sky-600 text-lg hover:bg-sky-700">
-            <CheckCircle2 className="mr-2" size={20} /> Serie fatta
+          {isTimed ? (
+            <Button
+              onClick={() => setRunning((r) => !r)}
+              className="min-h-14 flex-[2] bg-emerald-600 text-lg hover:bg-emerald-700"
+            >
+              {running ? <><Pause className="mr-2" size={20} /> Pausa</> : <><Play className="mr-2" size={20} /> Riprendi</>}
+            </Button>
+          ) : (
+            <Button onClick={next} className="min-h-14 flex-[2] bg-sky-600 text-lg hover:bg-sky-700">
+              <CheckCircle2 className="mr-2" size={20} /> Serie fatta
+            </Button>
+          )}
+          <Button variant="outline" onClick={next} className="min-h-14 flex-1" aria-label="Salta">
+            {idx === steps.length - 1 ? <SkipForward size={20} /> : <ChevronRight size={20} />}
           </Button>
-        )}
-        <Button variant="outline" onClick={next} className="min-h-14 flex-1" aria-label="Salta">
-          {idx === steps.length - 1 ? <SkipForward size={20} /> : <ChevronRight size={20} />}
-        </Button>
+        </div>
       </div>
       <VolumeControl />
-    
+    </div>
   );
 }
