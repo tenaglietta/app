@@ -239,6 +239,6 @@ export function WorkoutPlayer({ routine, onExit }: Props) {
         </Button>
       </div>
       <VolumeControl />
-    </div>
+    
   );
 }
