@@ -238,11 +238,7 @@ export function WorkoutPlayer({ routine, onExit }: Props) {
           {idx === steps.length - 1 ? <SkipForward size={20} /> : <ChevronRight size={20} />}
         </Button>
       </div>
-
-      </Button>
-      </div>
-
       <VolumeControl />
-    
+    </div>
   );
 }
